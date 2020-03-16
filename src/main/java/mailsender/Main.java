@@ -9,7 +9,7 @@ public class Main {
 
     // account used for only for tests
     // for WP POCZTA you need to set IMAP on in options
-    
+
     public static void main(String[] args) {
         Email email = new Email();
 
