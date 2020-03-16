@@ -1,7 +1,15 @@
-package mailsender;
+package mailsender.db.emails;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Email {
 
+    @Id
+    private long id;
     private String receiverEmail;
     private String senderEmail;
     private String senderPassword;
@@ -9,6 +17,14 @@ public class Email {
     private String content;
     private String serverHost;
     private int serverPort;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getServerPort() {
         return serverPort;

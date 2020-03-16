@@ -1,4 +1,6 @@
-package mailsender;
+package mailsender.utils;
+
+import mailsender.db.emails.Email;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
