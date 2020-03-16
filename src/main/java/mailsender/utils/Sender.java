@@ -1,6 +1,8 @@
 package mailsender.utils;
 
 import mailsender.db.emails.Email;
+import mailsender.pojo.SentEmail;
+import mailsender.web.EmailLogsPage;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -39,6 +41,12 @@ public class Sender {
             Transport.send(message);
 
             System.out.println("Wiadomość została wysłana: "+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+
+            SentEmail sentEmail = new SentEmail();
+            sentEmail.setSubject(email.getSubject());
+            sentEmail.setTime(LocalDateTime.now());
+
+            EmailLogsPage.addEmail(sentEmail);
 
         } catch (MessagingException e) {e.printStackTrace();}
     }
