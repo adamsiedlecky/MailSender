@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
+
 @Component
 public class EmailScheduler {
 
@@ -21,22 +23,20 @@ public class EmailScheduler {
     @Scheduled(cron = "0 59 7 * * MON-FRI")
     public void executeTask() {
 
-//        if(emailService.count()==0){
-//            Email email = new Email();
-//            email.setContent("");
-//            email.setSubject("Adam Siedlecki");
-//            email.setReceiverEmail("asiedlecki12@wp.pl");
-//            email.setSenderEmail("asiedlecki12@wp.pl");
-//            email.setSenderPassword("");
-//            email.setSenderPassword("qwerty123");
-//            email.setServerHost("smtp.wp.pl");
-//            email.setServerPort(465);
-//            emailService.saveAndFlush(email);
-//        }
+        Random r = new Random();
+        int delayMillis = r.nextInt(600000);
 
-        for(Email email : emailService.findAll()){
-            Sender.send(email);
-        }
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        for (Email email : emailService.findAll()) {
+                            Sender.send(email);
+                        }
+                    }
+                },
+                delayMillis
+        );
     }
 
 }
