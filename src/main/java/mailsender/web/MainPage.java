@@ -23,7 +23,8 @@ public class MainPage extends UI {
     @Override
     protected void init(VaadinRequest request) {
         this.setContent(root);
-        root.addComponent(new Label("ALL EMAILS IN THE TABLE BELOW ARE SENT AT 7:59 MON - FRI"));
+        root.addComponent(new Label("MailSender by Adam Siedlecki"));
+        root.addComponent(new Label("ALL EMAILS IN THE TABLE BELOW ARE SENT AT 10:00 MON - FRI"));
 
         emailGrid.addColumn(Email::getId).setCaption("ID");
         emailGrid.addColumn(Email::getSubject).setCaption("SUBJECT");
@@ -46,7 +47,7 @@ public class MainPage extends UI {
         /////
 
 
-        VerticalLayout addEmailLayout = new VerticalLayout();
+        FormLayout addEmailLayout = new FormLayout();
         VerticalLayout deleteEmailLayout = new VerticalLayout();
         HorizontalLayout horiz = new HorizontalLayout(addEmailLayout, deleteEmailLayout);
         root.addComponent(horiz);
@@ -57,7 +58,7 @@ public class MainPage extends UI {
         root.forEach(component -> root.setComponentAlignment(component, Alignment.MIDDLE_CENTER));
     }
 
-    private void prepareAddEmailForm(VerticalLayout layout){
+    private void prepareAddEmailForm(Layout layout){
         TextField idField = new TextField("ID");
         TextField receiverField = new TextField("RECEIVER EMAIL");
         TextField senderEmailField = new TextField("SENDER EMAIL");
@@ -87,13 +88,19 @@ public class MainPage extends UI {
                 email.setServerHost(serverHostField.getValue());
                 email.setServerPort(Integer.parseInt(serverPortField.getValue()));
                 emailService.saveAndFlush(email);
+                Notification.show("EMAIL SAVED!");
+                if(emailService.count()>0){
+                    emailGrid.setHeightByRows(emailService.count());
+                }else{
+                    emailGrid.setHeightByRows(1);
+                }
                 emailGrid.setItems(emailService.findAll());
             }else{
                 Notification.show("SOME VALUES ARE WRONG!");
             }
         });
 
-        layout.forEach(component -> layout.setComponentAlignment(component, Alignment.MIDDLE_CENTER));
+        //layout.forEach(component -> layout.setComponentAlignment(component, Alignment.MIDDLE_CENTER));
     }
 
     private void prepareDeleteEmailForm(VerticalLayout layout){

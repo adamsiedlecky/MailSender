@@ -20,7 +20,7 @@ public class EmailScheduler {
         this.emailService = emailService;
     }
 
-    @Scheduled(cron = "0 59 7 * * MON-FRI")
+    @Scheduled(cron = "0 0 10 * * MON-FRI")
     public void executeTask() {
 
         Random r = new Random();
